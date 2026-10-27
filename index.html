@@ -451,4 +451,951 @@ body.viewer-mode #standaloneDigitalViewer {
         background: #fff !important;
     }
 
-    .no-
+    .no-print, #standaloneDigitalViewer {
+        display: none !important;
+    }
+
+    .container, .row, .col-lg-6 {
+        width: 100% !important;
+        max-width: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        flex: none !important;
+    }
+
+    .panel-card {
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        background: transparent !important;
+    }
+
+    #digitalTabPane {
+        display: none !important;
+    }
+    #printTabPane {
+        display: block !important;
+        opacity: 1 !important;
+    }
+
+    body.print-exact .card-preview-area {
+        display: block !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    body.print-exact .business-card {
+        width: 90mm !important;
+        height: 49.8mm !important;
+        margin: 0 !important;
+        border-radius: 0 !important;
+        border: none !important;
+        box-shadow: none !important;
+        overflow: hidden !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+    }
+
+    body.print-exact #cardFront {
+        page-break-after: always !important;
+        break-after: page !important;
+    }
+
+    body.print-exact #cardBack {
+        page-break-after: auto !important;
+        break-after: auto !important;
+    }
+
+    body.print-a4 .card-preview-area {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 10mm !important;
+        padding-top: 20mm !important;
+    }
+
+    body.print-a4 .business-card {
+        width: 90mm !important;
+        height: 50mm !important;
+        border: 1px dashed #64748b !important;
+        box-shadow: none !important;
+        page-break-inside: avoid !important;
+    }
+}
+</style>
+</head>
+
+<body class="print-exact">
+
+<!-- =========================================================================
+     STANDALONE FULL-SCREEN DIGITAL CARD VIEWER (SHOWS WHEN QR CODE IS SCANNED)
+     ========================================================================= -->
+<div id="standaloneDigitalViewer">
+    <div>
+        <div class="heydrop-header">
+            <button class="qr-top-btn" data-bs-toggle="modal" data-bs-target="#qrModal" title="Show QR Code">
+                <i class="fa-solid fa-qrcode"></i>
+            </button>
+        </div>
+
+        <div class="digital-profile-section">
+            <div class="digital-avatar-wrapper">
+                <img id="viewAvatar" src="" alt="Profile Photo">
+            </div>
+
+            <h1 class="digital-name" id="viewName">Prashad Samantha</h1>
+            <p class="digital-title" id="viewTitle">Chief Financial Officer</p>
+            <div class="digital-company">ABANS FINANCE PLC</div>
+
+            <div class="action-stack">
+                <button onclick="downloadVCF()" class="btn-save-contact">
+                    <i class="fa-solid fa-user-plus"></i> Exchange / Save Contact
+                </button>
+
+                <a id="viewLinkMobile" href="#" class="contact-item-btn">
+                    <div class="icon-circle"><i class="fa-solid fa-phone"></i></div>
+                    <div>
+                        <div class="small text-muted" style="font-size: 0.68rem;">Mobile</div>
+                        <span id="viewMobile"></span>
+                    </div>
+                </a>
+
+                <a id="viewLinkTel" href="#" class="contact-item-btn">
+                    <div class="icon-circle"><i class="fa-solid fa-building"></i></div>
+                    <div>
+                        <div class="small text-muted" style="font-size: 0.68rem;">Office Telephone</div>
+                        <span id="viewTel"></span>
+                    </div>
+                </a>
+
+                <a id="viewLinkWhatsapp" href="#" target="_blank" class="contact-item-btn">
+                    <div class="icon-circle"><i class="fa-brands fa-whatsapp"></i></div>
+                    <div>
+                        <div class="small text-muted" style="font-size: 0.68rem;">WhatsApp</div>
+                        <span>Chat on WhatsApp</span>
+                    </div>
+                </a>
+
+                <a id="viewLinkEmail" href="#" class="contact-item-btn">
+                    <div class="icon-circle"><i class="fa-solid fa-envelope"></i></div>
+                    <div class="text-truncate">
+                        <div class="small text-muted" style="font-size: 0.68rem;">Email</div>
+                        <span id="viewEmail"></span>
+                    </div>
+                </a>
+
+                <a id="viewLinkWeb" href="#" target="_blank" class="contact-item-btn">
+                    <div class="icon-circle"><i class="fa-solid fa-globe"></i></div>
+                    <div class="text-truncate">
+                        <div class="small text-muted" style="font-size: 0.68rem;">Website</div>
+                        <span id="viewWeb"></span>
+                    </div>
+                </a>
+
+                <div class="contact-item-btn">
+                    <div class="icon-circle"><i class="fa-solid fa-location-dot"></i></div>
+                    <div>
+                        <div class="small text-muted" style="font-size: 0.68rem;">Office Address</div>
+                        <span id="viewAddress" class="small"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-footer-brand">
+        ABANS FINANCE PLC • OFFICIAL DIGITAL CARD
+    </div>
+</div>
+
+
+<!-- =========================================================================
+     GENERATOR STUDIO INTERFACE
+     ========================================================================= -->
+<div class="container" id="studioContainer">
+
+    <!-- TOP HEADER -->
+    <div class="studio-header no-print d-flex flex-wrap justify-content-between align-items-center gap-3">
+        <div>
+            <h4 class="fw-bold mb-0"><i class="fa-solid fa-layer-group me-2"></i>Abans Finance Card Studio</h4>
+            <div class="small opacity-75">Physical Visiting Card (9x5cm) + HeyDrop Style Digital Profile Generator</div>
+        </div>
+        <div class="d-flex flex-wrap gap-2">
+            <button onclick="previewViewerModeInBrowser()" class="btn btn-light btn-sm fw-bold px-3">
+                <i class="fa-solid fa-mobile-screen me-1"></i> Preview Scanned View
+            </button>
+            <button onclick="exportStandaloneHTML()" class="btn btn-warning btn-sm fw-bold px-3">
+                <i class="fa-solid fa-code me-1"></i> Download Digital Card (.html)
+            </button>
+        </div>
+    </div>
+
+    <div class="row g-4 align-items-start">
+
+        <!-- LEFT COLUMN: UNIFIED INPUT FORM -->
+        <div class="col-lg-6 no-print">
+            <div class="panel-card">
+                <h5 class="fw-bold text-secondary mb-3">
+                    <i class="fa-solid fa-user-pen me-2" style="color: #5b2869;"></i>Employee Details
+                </h5>
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold small">Full Name</label>
+                        <input type="text" id="inputName" class="form-control" value="Prashad Samantha" oninput="syncAll()">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold small">Designation</label>
+                        <input type="text" id="inputDesignation" class="form-control" value="Chief Financial Officer" oninput="syncAll()">
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold small">Mobile</label>
+                        <input type="tel" id="inputMobile" class="form-control" value="077 209 2209" oninput="syncAll()">
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold small">Telephone (Work)</label>
+                        <input type="text" id="inputTel" class="form-control" value="011 220 8888" oninput="syncAll()">
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold small">WhatsApp Number</label>
+                        <input type="text" id="inputWhatsapp" class="form-control" value="94772092209" placeholder="9477..." oninput="syncAll()">
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold small">Fax (Optional)</label>
+                        <input type="text" id="inputFax" class="form-control" placeholder="Optional" oninput="syncAll()">
+                    </div>
+
+                    <div class="col-md-8">
+                        <label class="form-label fw-bold small">Email Address</label>
+                        <input type="email" id="inputEmail" class="form-control" value="samanthab@abansfinance.lk" oninput="syncAll()">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold small">Website</label>
+                        <input type="text" id="inputWeb" class="form-control" value="www.abansfinance.lk" oninput="syncAll()">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold small">Office Address</label>
+                        <input type="text" id="inputAddress" class="form-control" value="No. 456, R A De Mel Mawatha, Colombo 03" oninput="syncAll()">
+                    </div>
+
+                    <!-- Profile Photo -->
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold small">Upload Photo (Print & HTML)</label>
+                        <div class="input-group">
+                            <input type="file" id="inputPhoto" class="form-control" accept="image/*" onchange="previewPhoto(event)">
+                            <button class="btn btn-outline-secondary" type="button" onclick="removePhoto()">Clear</button>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold small text-success">Photo Image URL (Auto-Filled)</label>
+                        <input type="url" id="inputPhotoUrl" class="form-control" value="https://sanjaya1985-lab.github.io/Visiting_Card/Samantha.jpg" oninput="syncAll()">
+                    </div>
+
+                    <!-- QR Code Destination Mode -->
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold small" style="color: #5b2869;">
+                            <i class="fa-solid fa-qrcode me-1"></i>Physical Card QR Mode
+                        </label>
+                        <select id="qrModeSelect" class="form-select border-primary" onchange="toggleQrUrlField(); syncAll();">
+                            <option value="hosted_digital" selected>Digital Card Link (HeyDrop Style)</option>
+                            <option value="mecard">Direct Contact Save (Offline MECARD)</option>
+                        </select>
+                    </div>
+
+                    <!-- Print Mode -->
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold small">Print Page Size</label>
+                        <select id="printModeSelect" class="form-select" onchange="changePrintMode()">
+                            <option value="exact" selected>Exact Card Size (9cm x 5cm)</option>
+                            <option value="a4">A4 Sheet (With Cut Lines)</option>
+                        </select>
+                    </div>
+
+                    <!-- PUBLIC HOST URL CONFIGURATION -->
+                    <div class="col-12" id="hostedUrlConfigWrapper">
+                        <div class="hosting-box">
+                            <label class="form-label fw-bold small text-dark mb-1">
+                                <i class="fa-solid fa-globe me-1 text-primary"></i>Public Hosted URL (Or HeyDrop Link):
+                            </label>
+                            <input
+                                type="url"
+                                id="inputPublicBaseUrl"
+                                class="form-control form-control-sm mb-1"
+                                placeholder="e.g. https://yourdomain.com/card.html  OR  https://heydrop.me/uXtBKZdGtWljuF"
+                                oninput="syncAll()">
+                            <div id="qrStatusNotice" class="small"></div>
+                        </div>
+                    </div>
+
+                    <!-- EXPORT & PRINT BUTTONS -->
+                    <div class="col-12 mt-3 pt-3 border-top">
+                        <div class="row g-2">
+                            <div class="col-sm-6">
+                                <button onclick="window.print()" class="btn btn-primary w-100 fw-bold py-2" style="background-color: #5b2869; border: none;">
+                                    <i class="fa-solid fa-print me-2"></i>Print Physical Card
+                                </button>
+                            </div>
+                            <div class="col-sm-6">
+                                <button id="pdfBtn" onclick="downloadPDF()" class="btn btn-success w-100 fw-bold py-2">
+                                    <i class="fa-solid fa-file-pdf me-2"></i>Download 2-Page PDF
+                                </button>
+                            </div>
+                            <div class="col-sm-6">
+                                <button onclick="exportStandaloneHTML()" class="btn btn-dark w-100 fw-bold py-2">
+                                    <i class="fa-solid fa-code me-2"></i>Download Web Card (.html)
+                                </button>
+                            </div>
+                            <div class="col-sm-6">
+                                <button onclick="downloadVCF()" class="btn btn-outline-dark w-100 fw-bold py-2">
+                                    <i class="fa-solid fa-download me-2"></i>Download Contact (.vcf)
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT COLUMN: DUAL LIVE PREVIEW (TABS) -->
+        <div class="col-lg-6">
+            <div class="panel-card">
+                
+                <!-- Navigation Tabs -->
+                <ul class="nav nav-pills nav-fill mb-3 no-print bg-light p-1 rounded-3" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#printTabPane" type="button" role="tab">
+                            <i class="fa-solid fa-id-card me-2"></i>Physical Card (9x5 cm)
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" data-bs-toggle="pill" data-bs-target="#digitalTabPane" type="button" role="tab">
+                            <i class="fa-solid fa-mobile-screen-button me-2"></i>Digital Card (HeyDrop Style)
+                        </button>
+                    </li>
+                </ul>
+
+                <div class="tab-content">
+                    
+                    <!-- TAB 1: PHYSICAL PRINT CARD PREVIEW -->
+                    <div class="tab-pane fade show active" id="printTabPane" role="tabpanel">
+                        <div class="card-preview-area" id="cardPreviewArea">
+
+                            <!-- FRONT SIDE -->
+                            <div class="business-card card-front" id="cardFront">
+                                <canvas id="curveCanvas" class="front-curve-canvas" width="400" height="600"></canvas>
+
+                                <div class="profile-photo-container" id="photoContainer">
+                                    <img id="cardPhoto" src="" alt="Profile Photo">
+                                </div>
+
+                                <div class="front-content">
+                                    <div class="user-name" id="cardName">Prashad Samantha</div>
+                                    <div class="user-designation" id="cardDesignation">Chief Financial Officer</div>
+
+                                    <div class="company-name">ABANS FINANCE PLC</div>
+                                    <div class="contact-info">
+                                        <div id="cardAddress">No. 456, R A De Mel Mawatha, Colombo 03</div>
+                                        <div>
+                                            Tel : <span id="cardTel">011 220 8888</span>
+                                            <span id="faxContainer" style="display: none;"> &nbsp; Fax : <span id="cardFax"></span></span>
+                                        </div>
+                                        <div>Mobile : <span id="cardMobile">077 209 2209</span></div>
+                                        <div>E-mail : <span id="cardEmail">samanthab@abansfinance.lk</span></div>
+                                        <div>Web : <span id="cardWeb">www.abansfinance.lk</span></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- BACK SIDE -->
+                            <div class="business-card card-back" id="cardBack">
+                                <div class="abans-logo-wrapper">
+                                    <div class="abans-logo-text">
+                                        <div class="logo-abans">Abans</div>
+                                        <div class="logo-finance">Finance</div>
+                                    </div>
+                                    <div class="logo-vertical-bar"></div>
+                                </div>
+
+                                <div class="back-qr-section">
+                                    <div id="cardQR" class="qr-code-img"></div>
+                                    <div class="qr-label" id="qrLabelText">SCAN TO SAVE CONTACT</div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- TAB 2: HEYDROP DIGITAL CARD PREVIEW -->
+                    <div class="tab-pane fade no-print" id="digitalTabPane" role="tabpanel">
+                        <div class="phone-frame">
+                            <div>
+                                <div class="heydrop-header">
+                                    <button class="qr-top-btn" data-bs-toggle="modal" data-bs-target="#qrModal" title="Show QR Code">
+                                        <i class="fa-solid fa-qrcode"></i>
+                                    </button>
+                                </div>
+
+                                <div class="digital-profile-section">
+                                    <div class="digital-avatar-wrapper">
+                                        <img id="digitalAvatar" src="" alt="Avatar">
+                                    </div>
+
+                                    <h1 class="digital-name" id="digName">Prashad Samantha</h1>
+                                    <p class="digital-title" id="digTitle">Chief Financial Officer</p>
+                                    <div class="digital-company">ABANS FINANCE PLC</div>
+
+                                    <div class="action-stack">
+                                        <button onclick="downloadVCF()" class="btn-save-contact">
+                                            <i class="fa-solid fa-user-plus"></i> Exchange / Save Contact
+                                        </button>
+
+                                        <a id="digLinkMobile" href="tel:0772092209" class="contact-item-btn">
+                                            <div class="icon-circle"><i class="fa-solid fa-phone"></i></div>
+                                            <div>
+                                                <div class="small text-muted" style="font-size: 0.68rem;">Mobile</div>
+                                                <span id="digMobile">077 209 2209</span>
+                                            </div>
+                                        </a>
+
+                                        <a id="digLinkTel" href="tel:0112208888" class="contact-item-btn">
+                                            <div class="icon-circle"><i class="fa-solid fa-building"></i></div>
+                                            <div>
+                                                <div class="small text-muted" style="font-size: 0.68rem;">Office Telephone</div>
+                                                <span id="digTel">011 220 8888</span>
+                                            </div>
+                                        </a>
+
+                                        <a id="digLinkWhatsapp" href="https://wa.me/94772092209" target="_blank" class="contact-item-btn">
+                                            <div class="icon-circle"><i class="fa-brands fa-whatsapp"></i></div>
+                                            <div>
+                                                <div class="small text-muted" style="font-size: 0.68rem;">WhatsApp</div>
+                                                <span>Chat on WhatsApp</span>
+                                            </div>
+                                        </a>
+
+                                        <a id="digLinkEmail" href="mailto:samanthab@abansfinance.lk" class="contact-item-btn">
+                                            <div class="icon-circle"><i class="fa-solid fa-envelope"></i></div>
+                                            <div class="text-truncate">
+                                                <div class="small text-muted" style="font-size: 0.68rem;">Email</div>
+                                                <span id="digEmail">samanthab@abansfinance.lk</span>
+                                            </div>
+                                        </a>
+
+                                        <a id="digLinkWeb" href="https://www.abansfinance.lk" target="_blank" class="contact-item-btn">
+                                            <div class="icon-circle"><i class="fa-solid fa-globe"></i></div>
+                                            <div class="text-truncate">
+                                                <div class="small text-muted" style="font-size: 0.68rem;">Website</div>
+                                                <span id="digWeb">www.abansfinance.lk</span>
+                                            </div>
+                                        </a>
+
+                                        <div class="contact-item-btn">
+                                            <div class="icon-circle"><i class="fa-solid fa-location-dot"></i></div>
+                                            <div>
+                                                <div class="small text-muted" style="font-size: 0.68rem;">Office Address</div>
+                                                <span id="digAddress" class="small">No. 456, R A De Mel Mawatha, Colombo 03</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-footer-brand">
+                                ABANS FINANCE PLC • DIGITAL PROFILE
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Modal for Digital Card QR -->
+<div class="modal fade no-print" id="qrModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content text-center p-4" style="border-radius: 24px;">
+            <h6 class="fw-bold mb-3">Scan Digital Card QR</h6>
+            <div id="modalQrBox" class="d-flex justify-content-center my-2"></div>
+            <p class="small text-muted mt-2 mb-0" id="qrModalName">Prashad Samantha</p>
+            <button type="button" class="btn btn-dark btn-sm rounded-pill mt-3" data-bs-dismiss="modal">Close</button>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    let uploadedPhotoBase64 = "";
+
+    document.addEventListener("DOMContentLoaded", function() {
+        // Automatically detect if this file is already hosted on an http/https server
+        if (window.location.protocol.startsWith('http')) {
+            document.getElementById('inputPublicBaseUrl').value = window.location.href.split('?')[0];
+        }
+        checkIfScannedViewerMode();
+        drawPurpleCurve();
+        syncAll();
+    });
+
+    // Check if URL has ?card=1 (Opened by scanning the QR Code)
+    function checkIfScannedViewerMode() {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('card') === '1') {
+            document.body.classList.add('viewer-mode');
+
+            const name = params.get('n') || 'Abans Finance';
+            const title = params.get('t') || '';
+            const mobile = params.get('m') || '';
+            const tel = params.get('o') || '';
+            const whatsapp = params.get('w') || mobile.replace(/[^0-9]/g, '');
+            const email = params.get('e') || '';
+            const web = params.get('u') || 'www.abansfinance.lk';
+            const address = params.get('a') || 'No. 456, R A De Mel Mawatha, Colombo 03';
+            const photoUrl = params.get('p') || '';
+
+            document.getElementById('inputName').value = name;
+            document.getElementById('inputDesignation').value = title;
+            document.getElementById('inputMobile').value = mobile;
+            document.getElementById('inputTel').value = tel;
+            document.getElementById('inputWhatsapp').value = whatsapp;
+            document.getElementById('inputEmail').value = email;
+            document.getElementById('inputWeb').value = web;
+            document.getElementById('inputAddress').value = address;
+            document.getElementById('inputPhotoUrl').value = photoUrl;
+
+            populateStandaloneViewer(name, title, mobile, tel, whatsapp, email, web, address, photoUrl);
+        }
+    }
+
+    function populateStandaloneViewer(name, title, mobile, tel, whatsapp, email, web, address, photoUrl) {
+        document.title = `${name} | Digital Business Card`;
+        document.getElementById('viewName').innerText = name;
+        document.getElementById('viewTitle').innerText = title;
+        document.getElementById('viewMobile').innerText = mobile;
+        document.getElementById('viewTel').innerText = tel;
+        document.getElementById('viewEmail').innerText = email;
+        document.getElementById('viewWeb').innerText = web.replace(/^https?:\/\//, '');
+        document.getElementById('viewAddress').innerText = address;
+
+        const fullWebUrl = web.startsWith('http') ? web : `https://${web}`;
+        document.getElementById('viewLinkMobile').href = `tel:${mobile.replace(/\s+/g, '')}`;
+        document.getElementById('viewLinkTel').href = `tel:${tel.replace(/\s+/g, '')}`;
+        document.getElementById('viewLinkWhatsapp').href = `https://wa.me/${whatsapp.replace(/[^0-9]/g, '')}`;
+        document.getElementById('viewLinkEmail').href = `mailto:${email}`;
+        document.getElementById('viewLinkWeb').href = fullWebUrl;
+
+        const avatarSrc = uploadedPhotoBase64 || photoUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=5b2869&color=fff&size=256`;
+        document.getElementById('viewAvatar').src = avatarSrc;
+    }
+
+    // Toggle between Studio and Scanned Full-Screen Preview locally
+    function previewViewerModeInBrowser() {
+        const name = document.getElementById('inputName').value.trim();
+        const title = document.getElementById('inputDesignation').value.trim();
+        const mobile = document.getElementById('inputMobile').value.trim();
+        const tel = document.getElementById('inputTel').value.trim();
+        const whatsapp = document.getElementById('inputWhatsapp').value.trim();
+        const email = document.getElementById('inputEmail').value.trim();
+        const web = document.getElementById('inputWeb').value.trim();
+        const address = document.getElementById('inputAddress').value.trim();
+        const photoUrl = document.getElementById('inputPhotoUrl').value.trim();
+
+        populateStandaloneViewer(name, title, mobile, tel, whatsapp, email, web, address, photoUrl);
+        document.body.classList.add('viewer-mode');
+
+        // Add a temporary floating button to return to Studio
+        if (!document.getElementById('backToStudioBtn')) {
+            const btn = document.createElement('button');
+            btn.id = 'backToStudioBtn';
+            btn.className = 'btn btn-dark btn-sm rounded-pill position-fixed bottom-0 start-50 translate-middle-x mb-3 px-4 shadow';
+            btn.style.zIndex = 9999;
+            btn.innerHTML = '<i class="fa-solid fa-arrow-left me-2"></i>Back to Card Studio';
+            btn.onclick = function() {
+                document.body.classList.remove('viewer-mode');
+                btn.remove();
+            };
+            document.body.appendChild(btn);
+        }
+    }
+
+    function drawPurpleCurve() {
+        const canvas = document.getElementById('curveCanvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        const w = canvas.width;
+        const h = canvas.height;
+
+        ctx.clearRect(0, 0, w, h);
+        ctx.fillStyle = '#5b2869';
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.quadraticCurveTo(w * 0.65, h * 0.35, w, h);
+        ctx.lineTo(w, 0);
+        ctx.closePath();
+        ctx.fill();
+    }
+
+    function toggleQrUrlField() {
+        const mode = document.getElementById('qrModeSelect').value;
+        document.getElementById('hostedUrlConfigWrapper').style.display = (mode === 'hosted_digital') ? 'block' : 'none';
+    }
+
+    function changePrintMode() {
+        const mode = document.getElementById('printModeSelect').value;
+        const pageStyle = document.getElementById('dynamicPageStyle');
+
+        if (mode === 'exact') {
+            document.body.className = 'print-exact';
+            pageStyle.innerHTML = '@page { size: 90mm 50mm; margin: 0; }';
+        } else {
+            document.body.className = 'print-a4';
+            pageStyle.innerHTML = '@page { size: A4 portrait; margin: 0; }';
+        }
+    }
+
+    // Build Dynamic Digital Card URL from Public Host URL
+    function buildPublicDigitalUrl(publicBase) {
+        if (publicBase.includes('heydrop.me') || publicBase.includes('linktr.ee') || publicBase.includes('hihello.me')) {
+            return publicBase;
+        }
+
+        const cleanBase = publicBase.split('?')[0];
+        const params = new URLSearchParams();
+        params.set('card', '1');
+        params.set('n', document.getElementById('inputName').value.trim());
+        params.set('t', document.getElementById('inputDesignation').value.trim());
+        params.set('m', document.getElementById('inputMobile').value.trim());
+        params.set('o', document.getElementById('inputTel').value.trim());
+        params.set('w', document.getElementById('inputWhatsapp').value.trim());
+        params.set('e', document.getElementById('inputEmail').value.trim());
+        params.set('u', document.getElementById('inputWeb').value.trim());
+        params.set('a', document.getElementById('inputAddress').value.trim());
+
+        const photoUrl = document.getElementById('inputPhotoUrl').value.trim();
+        if (photoUrl) {
+            params.set('p', photoUrl);
+        }
+
+        return `${cleanBase}?${params.toString()}`;
+    }
+
+    // Master Sync Function
+    function syncAll() {
+        const name = document.getElementById('inputName').value.trim();
+        const designation = document.getElementById('inputDesignation').value.trim();
+        const mobile = document.getElementById('inputMobile').value.trim();
+        const tel = document.getElementById('inputTel').value.trim();
+        const whatsapp = document.getElementById('inputWhatsapp').value.trim();
+        const fax = document.getElementById('inputFax').value.trim();
+        const email = document.getElementById('inputEmail').value.trim();
+        const web = document.getElementById('inputWeb').value.trim();
+        const address = document.getElementById('inputAddress').value.trim();
+        const photoUrl = document.getElementById('inputPhotoUrl').value.trim();
+
+        const displayName = name || 'Your Name';
+        const displayTitle = designation || 'Your Designation';
+        const fullWebUrl = web.startsWith('http') ? web : `https://${web}`;
+        const cleanWebText = web.replace(/^https?:\/\//, '');
+
+        // 1. Update Physical Card
+        document.getElementById('cardName').innerText = displayName;
+        document.getElementById('cardDesignation').innerText = displayTitle;
+        document.getElementById('cardMobile').innerText = mobile;
+        document.getElementById('cardTel').innerText = tel;
+        document.getElementById('cardEmail').innerText = email;
+        document.getElementById('cardWeb').innerText = cleanWebText;
+        document.getElementById('cardAddress').innerText = address;
+
+        const faxContainer = document.getElementById('faxContainer');
+        if (fax) {
+            document.getElementById('cardFax').innerText = fax;
+            faxContainer.style.display = 'inline';
+        } else {
+            faxContainer.style.display = 'none';
+        }
+
+        // Handle Photo
+        const activePhoto = uploadedPhotoBase64 || photoUrl;
+        if (activePhoto) {
+            document.getElementById('cardPhoto').src = activePhoto;
+            document.getElementById('photoContainer').style.display = 'block';
+            document.getElementById('digitalAvatar').src = activePhoto;
+        } else {
+            document.getElementById('photoContainer').style.display = 'none';
+            document.getElementById('digitalAvatar').src = `https://ui-avatars.com/api/?name=${encodeURIComponent(displayName)}&background=5b2869&color=fff&size=256`;
+        }
+
+        // 2. Update Digital Card Preview
+        document.getElementById('digName').innerText = displayName;
+        document.getElementById('qrModalName').innerText = displayName;
+        document.getElementById('digTitle').innerText = displayTitle;
+        document.getElementById('digMobile').innerText = mobile;
+        document.getElementById('digTel').innerText = tel;
+        document.getElementById('digEmail').innerText = email;
+        document.getElementById('digWeb').innerText = cleanWebText;
+        document.getElementById('digAddress').innerText = address;
+
+        document.getElementById('digLinkMobile').href = `tel:${mobile.replace(/\s+/g, '')}`;
+        document.getElementById('digLinkTel').href = `tel:${tel.replace(/\s+/g, '')}`;
+        document.getElementById('digLinkWhatsapp').href = `https://wa.me/${whatsapp.replace(/[^0-9]/g, '')}`;
+        document.getElementById('digLinkEmail').href = `mailto:${email}`;
+        document.getElementById('digLinkWeb').href = fullWebUrl;
+
+        // 3. Smart QR Payload Generation
+        const qrMode = document.getElementById('qrModeSelect').value;
+        const publicBase = document.getElementById('inputPublicBaseUrl').value.trim();
+        const noticeEl = document.getElementById('qrStatusNotice');
+        const cleanMobile = mobile.replace(/\s+/g, '');
+        const meCardPayload = `MECARD:N:${name};ORG:Abans Finance PLC;TIL:${designation};TEL:${cleanMobile};EMAIL:${email};;`;
+
+        let qrPayload = meCardPayload;
+
+        if (qrMode === 'hosted_digital') {
+            if (publicBase.startsWith('http://') || publicBase.startsWith('https://')) {
+                qrPayload = buildPublicDigitalUrl(publicBase);
+                document.getElementById('qrLabelText').innerText = 'SCAN FOR DIGITAL CARD';
+                noticeEl.className = 'small text-success fw-bold mt-1';
+                noticeEl.innerHTML = '<i class="fa-solid fa-circle-check me-1"></i>QR linked to live Digital Card URL!';
+            } else {
+                qrPayload = meCardPayload;
+                document.getElementById('qrLabelText').innerText = 'SCAN TO SAVE CONTACT';
+                noticeEl.className = 'small text-danger fw-semibold mt-1';
+                noticeEl.innerHTML = '<i class="fa-solid fa-triangle-exclamation me-1"></i>Opened from local computer (file:///). Using Direct Contact QR so phones can scan immediately. Paste your https:// link above when hosted!';
+            }
+        } else {
+            qrPayload = meCardPayload;
+            document.getElementById('qrLabelText').innerText = 'SCAN TO SAVE CONTACT';
+        }
+
+        // Render Physical Card QR
+        const qrContainer = document.getElementById('cardQR');
+        qrContainer.innerHTML = '';
+        new QRCode(qrContainer, {
+            text: qrPayload,
+            width: 256,
+            height: 256,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.L
+        });
+
+        // Render Modal QR
+        const modalQrBox = document.getElementById('modalQrBox');
+        modalQrBox.innerHTML = '';
+        new QRCode(modalQrBox, {
+            text: qrPayload,
+            width: 180,
+            height: 180,
+            correctLevel: QRCode.CorrectLevel.L
+        });
+    }
+
+    function previewPhoto(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                uploadedPhotoBase64 = e.target.result;
+                syncAll();
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    function removePhoto() {
+        uploadedPhotoBase64 = "";
+        document.getElementById('inputPhoto').value = '';
+        document.getElementById('inputPhotoUrl').value = '';
+        syncAll();
+    }
+
+    // Direct 2-Page 90mm x 50mm PDF Export
+    async function downloadPDF() {
+        const btn = document.getElementById('pdfBtn');
+        const originalHtml = btn.innerHTML;
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-2"></i>Generating...';
+        btn.disabled = true;
+
+        try {
+            const printTabBtn = document.querySelector('[data-bs-target="#printTabPane"]');
+            if (!printTabBtn.classList.contains('active')) {
+                new bootstrap.Tab(printTabBtn).show();
+                await new Promise(r => setTimeout(r, 200));
+            }
+
+            const name = document.getElementById('inputName').value.trim() || 'Visiting_Card';
+            const safeFileName = name.replace(/\s+/g, '_') + '_Business_Card.pdf';
+
+            const cardFront = document.getElementById('cardFront');
+            const cardBack = document.getElementById('cardBack');
+
+            const origBorderFront = cardFront.style.border;
+            const origBorderBack = cardBack.style.border;
+            cardFront.style.border = 'none';
+            cardBack.style.border = 'none';
+
+            const canvasOptions = {
+                scale: 4,
+                useCORS: true,
+                backgroundColor: '#ffffff',
+                logging: false
+            };
+
+            const frontCanvas = await window.html2canvas(cardFront, canvasOptions);
+            const backCanvas = await window.html2canvas(cardBack, canvasOptions);
+
+            cardFront.style.border = origBorderFront;
+            cardBack.style.border = origBorderBack;
+
+            const frontImgData = frontCanvas.toDataURL('image/jpeg', 1.0);
+            const backImgData = backCanvas.toDataURL('image/jpeg', 1.0);
+
+            const jsPDFClass = (window.jspdf && window.jspdf.jsPDF) ? window.jspdf.jsPDF : window.jsPDF;
+            const pdf = new jsPDFClass({
+                orientation: 'landscape',
+                unit: 'mm',
+                format: [90, 50]
+            });
+
+            pdf.addImage(frontImgData, 'JPEG', 0, 0, 90, 50);
+            pdf.addPage([90, 50], 'landscape');
+            pdf.addImage(backImgData, 'JPEG', 0, 0, 90, 50);
+
+            pdf.save(safeFileName);
+        } catch (err) {
+            console.error('PDF Generation Error:', err);
+            alert('Error generating PDF: ' + err.message);
+        } finally {
+            btn.innerHTML = originalHtml;
+            btn.disabled = false;
+        }
+    }
+
+    // Download .VCF Contact File
+    function downloadVCF() {
+        const name = document.getElementById('inputName').value.trim();
+        const designation = document.getElementById('inputDesignation').value.trim();
+        const mobile = document.getElementById('inputMobile').value.trim();
+        const tel = document.getElementById('inputTel').value.trim();
+        const email = document.getElementById('inputEmail').value.trim();
+        const web = document.getElementById('inputWeb').value.trim();
+        const address = document.getElementById('inputAddress').value.trim();
+        const fullWebUrl = web.startsWith('http') ? web : `https://${web}`;
+
+        const vcfLines = [
+            "BEGIN:VCARD",
+            "VERSION:3.0",
+            `FN:${name}`,
+            `N:${name};;;;`,
+            "ORG:Abans Finance PLC",
+            `TITLE:${designation}`,
+            `TEL;TYPE=CELL,VOICE:${mobile}`,
+            `TEL;TYPE=WORK,VOICE:${tel}`,
+            `EMAIL;TYPE=PREF,INTERNET:${email}`,
+            `URL:${fullWebUrl}`,
+            `ADR;TYPE=WORK:;;${address};;;;`,
+            "END:VCARD"
+        ];
+
+        const blob = new Blob([vcfLines.join("\r\n")], { type: "text/vcard;charset=utf-8" });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = `${(name || 'Contact').replace(/\s+/g, '_')}.vcf`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
+    // Export Standalone HTML File for Individual Hosting
+    function exportStandaloneHTML() {
+        const name = document.getElementById('inputName').value.trim() || 'Employee';
+        const title = document.getElementById('inputDesignation').value.trim();
+        const mobile = document.getElementById('inputMobile').value.trim();
+        const tel = document.getElementById('inputTel').value.trim();
+        const whatsapp = document.getElementById('inputWhatsapp').value.trim().replace(/[^0-9]/g, '');
+        const email = document.getElementById('inputEmail').value.trim();
+        const web = document.getElementById('inputWeb').value.trim();
+        const address = document.getElementById('inputAddress').value.trim();
+        const photoUrl = document.getElementById('inputPhotoUrl').value.trim();
+        const fullWebUrl = web.startsWith('http') ? web : `https://${web}`;
+        const cleanWebText = web.replace(/^https?:\/\//, '');
+        const avatarSrc = uploadedPhotoBase64 || photoUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=5b2869&color=fff&size=256`;
+
+        const standaloneHTML = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>${name} | Abans Finance PLC</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<style>
+    body { background: #f5f5f7; font-family: 'Segoe UI', system-ui, sans-serif; margin: 0; }
+    .card-wrapper { max-width: 440px; margin: 0 auto; min-height: 100vh; background: #f5f5f7; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 0 30px rgba(0,0,0,0.08); }
+    .header-bg { background: linear-gradient(135deg, #5b2869 0%, #3b1747 100%); height: 145px; }
+    .profile-box { padding: 0 22px 30px; text-align: center; margin-top: -75px; }
+    .avatar { width: 150px; height: 150px; border-radius: 50%; border: 5px solid #fff; box-shadow: 0 8px 25px rgba(0,0,0,0.12); object-fit: cover; background: #fff; margin-bottom: 14px; }
+    .save-btn { background: #000; color: #fff; font-weight: 600; padding: 15px; border-radius: 30px; border: none; width: 100%; font-size: 0.98rem; margin-bottom: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.18); transition: 0.2s; }
+    .save-btn:hover { background: #5b2869; }
+    .item-btn { background: #fff; color: #1f2937; font-weight: 600; padding: 12px 16px; border-radius: 18px; border: 1px solid #e5e7eb; width: 100%; display: flex; align-items: center; gap: 14px; text-decoration: none; margin-bottom: 10px; text-align: left; }
+    .icon-box { width: 36px; height: 36px; border-radius: 50%; background: #f3e8ff; color: #5b2869; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+</style>
+</head>
+<body>
+<div class="card-wrapper">
+    <div>
+        <div class="header-bg"></div>
+        <div class="profile-box">
+            <img src="${avatarSrc}" class="avatar" alt="${name}">
+            <h1 class="h4 fw-bold mb-1">${name}</h1>
+            <p class="text-secondary mb-1">${title}</p>
+            <div class="small fw-bold text-uppercase mb-4" style="color:#5b2869;">ABANS FINANCE PLC</div>
+
+            <button onclick="saveVCF()" class="save-btn"><i class="fa-solid fa-user-plus me-2"></i>Exchange / Save Contact</button>
+
+            <a href="tel:${mobile.replace(/\s+/g, '')}" class="item-btn"><div class="icon-box"><i class="fa-solid fa-phone"></i></div><div><div class="small text-muted" style="font-size:0.7rem;">Mobile</div>${mobile}</div></a>
+            <a href="tel:${tel.replace(/\s+/g, '')}" class="item-btn"><div class="icon-box"><i class="fa-solid fa-building"></i></div><div><div class="small text-muted" style="font-size:0.7rem;">Office</div>${tel}</div></a>
+            <a href="https://wa.me/${whatsapp}" target="_blank" class="item-btn"><div class="icon-box"><i class="fa-brands fa-whatsapp"></i></div><div><div class="small text-muted" style="font-size:0.7rem;">WhatsApp</div>Chat on WhatsApp</div></a>
+            <a href="mailto:${email}" class="item-btn"><div class="icon-box"><i class="fa-solid fa-envelope"></i></div><div><div class="small text-muted" style="font-size:0.7rem;">Email</div>${email}</div></a>
+            <a href="${fullWebUrl}" target="_blank" class="item-btn"><div class="icon-box"><i class="fa-solid fa-globe"></i></div><div><div class="small text-muted" style="font-size:0.7rem;">Website</div>${cleanWebText}</div></a>
+            <div class="item-btn"><div class="icon-box"><i class="fa-solid fa-location-dot"></i></div><div><div class="small text-muted" style="font-size:0.7rem;">Address</div><span class="small">${address}</span></div></div>
+        </div>
+    </div>
+    <div class="text-center small text-muted py-3 fw-bold">ABANS FINANCE PLC • DIGITAL CARD</div>
+</div>
+<script>
+function saveVCF() {
+    const vcf = ["BEGIN:VCARD","VERSION:3.0","FN:${name}","N:${name};;;;","ORG:Abans Finance PLC","TITLE:${title}","TEL;TYPE=CELL,VOICE:${mobile}","TEL;TYPE=WORK,VOICE:${tel}","EMAIL:${email}","URL:${fullWebUrl}","ADR;TYPE=WORK:;;${address};;;;","END:VCARD"].join("\\r\\n");
+    const blob = new Blob([vcf], { type: "text/vcard" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "${name.replace(/\s+/g, '_')}.vcf";
+    a.click();
+}
+<\/script>
+</body>
+</html>`;
+
+        const blob = new Blob([standaloneHTML], { type: "text/html;charset=utf-8" });
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = `${name.replace(/\s+/g, '_').toLowerCase()}_digital_card.html`;
+        a.click();
+    }
+</script>
+
+</body>
+</html>
