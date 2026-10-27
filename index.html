@@ -56,7 +56,13 @@ body.viewer-mode #standaloneDigitalViewer { display: flex !important; }
 /* HeyDrop Style Digital Card Styles */
 .phone-frame { max-width: 380px; margin: 10px auto; background: #f5f5f7; border-radius: 36px; border: 9px solid #1e293b; box-shadow: 0 18px 40px rgba(0,0,0,0.15); overflow: hidden; position: relative; min-height: 690px; display: flex; flex-direction: column; justify-content: space-between; }
 .heydrop-header { background: linear-gradient(135deg, #5b2869 0%, #3b1747 100%); height: 130px; position: relative; }
-.qr-top-btn { position: absolute; top: 14px; right: 14px; width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,0.2); color: #fff; border: none; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(4px); cursor: pointer; }
+.qr-top-btn { position: absolute; top: 16px; right: 16px; width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.2); color: #fff; border: none; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(4px); cursor: pointer; z-index: 3;}
+.digital-logo-box { position: absolute; top: 16px; left: 16px; background: #fff; padding: 5px 8px; border-radius: 4px; display: flex; align-items: stretch; gap: 5px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); z-index: 2; }
+.digital-logo-text { display: flex; flex-direction: column; justify-content: center; }
+.digital-logo-abans { font-family: 'Arial Black', Arial, sans-serif; font-size: 14px; font-weight: 900; color: #5b2869; line-height: 0.8; letter-spacing: -0.5px; }
+.digital-logo-finance { font-size: 9px; font-weight: 600; color: #525866; line-height: 0.9; margin-top: 2px; }
+.digital-logo-bar { width: 3px; background: #5b2869; border-radius: 1px; }
+
 .digital-profile-section { padding: 0 20px 24px; text-align: center; margin-top: -70px; position: relative; z-index: 2; }
 .digital-avatar-wrapper { width: 142px; height: 142px; border-radius: 50%; margin: 0 auto 14px; overflow: hidden; border: 5px solid #ffffff; box-shadow: 0 8px 20px rgba(0,0,0,0.12); background: #fff; }
 .digital-avatar-wrapper img { width: 100%; height: 100%; object-fit: cover; }
@@ -96,6 +102,13 @@ body.viewer-mode #standaloneDigitalViewer { display: flex !important; }
 <div id="standaloneDigitalViewer">
     <div>
         <div class="heydrop-header">
+            <div class="digital-logo-box">
+                <div class="digital-logo-text">
+                    <div class="digital-logo-abans">Abans</div>
+                    <div class="digital-logo-finance">Finance</div>
+                </div>
+                <div class="digital-logo-bar"></div>
+            </div>
             <button class="qr-top-btn" data-bs-toggle="modal" data-bs-target="#qrModal" title="Show QR Code">
                 <i class="fa-solid fa-qrcode"></i>
             </button>
@@ -126,6 +139,10 @@ body.viewer-mode #standaloneDigitalViewer { display: flex !important; }
                 <a id="viewLinkEmail" href="#" class="contact-item-btn">
                     <div class="icon-circle"><i class="fa-solid fa-envelope"></i></div>
                     <div class="text-truncate"><div class="small text-muted" style="font-size: 0.68rem;">Email</div><span id="viewEmail"></span></div>
+                </a>
+                <a id="viewLinkLinkedin" href="#" target="_blank" class="contact-item-btn" style="display: none;">
+                    <div class="icon-circle"><i class="fa-brands fa-linkedin-in"></i></div>
+                    <div class="text-truncate"><div class="small text-muted" style="font-size: 0.68rem;">LinkedIn</div><span>View Profile</span></div>
                 </a>
                 <a id="viewLinkWeb" href="#" target="_blank" class="contact-item-btn">
                     <div class="icon-circle"><i class="fa-solid fa-globe"></i></div>
@@ -195,6 +212,10 @@ body.viewer-mode #standaloneDigitalViewer { display: flex !important; }
                         <input type="text" id="inputWeb" class="form-control" value="www.abansfinance.lk" oninput="syncAll()">
                     </div>
                     <div class="col-md-6">
+                        <label class="form-label fw-bold small text-primary">LinkedIn URL (Digital Only)</label>
+                        <input type="url" id="inputLinkedin" class="form-control" placeholder="https://linkedin.com/in/..." oninput="syncAll()">
+                    </div>
+                    <div class="col-md-12">
                         <label class="form-label fw-bold small">Office Address</label>
                         <input type="text" id="inputAddress" class="form-control" value="No. 456, R A De Mel Mawatha, Colombo 03" oninput="syncAll()">
                     </div>
@@ -315,6 +336,13 @@ body.viewer-mode #standaloneDigitalViewer { display: flex !important; }
                         <div class="phone-frame">
                             <div>
                                 <div class="heydrop-header">
+                                    <div class="digital-logo-box">
+                                        <div class="digital-logo-text">
+                                            <div class="digital-logo-abans">Abans</div>
+                                            <div class="digital-logo-finance">Finance</div>
+                                        </div>
+                                        <div class="digital-logo-bar"></div>
+                                    </div>
                                     <button class="qr-top-btn" data-bs-toggle="modal" data-bs-target="#qrModal" title="Show QR Code"><i class="fa-solid fa-qrcode"></i></button>
                                 </div>
                                 <div class="digital-profile-section">
@@ -328,6 +356,7 @@ body.viewer-mode #standaloneDigitalViewer { display: flex !important; }
                                         <a id="digLinkTel" href="tel:0112208888" class="contact-item-btn"><div class="icon-circle"><i class="fa-solid fa-building"></i></div><div><div class="small text-muted" style="font-size: 0.68rem;">Office Telephone</div><span id="digTel">011 220 8888</span></div></a>
                                         <a id="digLinkWhatsapp" href="https://wa.me/94772092209" target="_blank" class="contact-item-btn"><div class="icon-circle"><i class="fa-brands fa-whatsapp"></i></div><div><div class="small text-muted" style="font-size: 0.68rem;">WhatsApp</div><span>Chat on WhatsApp</span></div></a>
                                         <a id="digLinkEmail" href="mailto:samanthab@abansfinance.lk" class="contact-item-btn"><div class="icon-circle"><i class="fa-solid fa-envelope"></i></div><div class="text-truncate"><div class="small text-muted" style="font-size: 0.68rem;">Email</div><span id="digEmail">samanthab@abansfinance.lk</span></div></a>
+                                        <a id="digLinkLinkedin" href="#" target="_blank" class="contact-item-btn" style="display: none;"><div class="icon-circle"><i class="fa-brands fa-linkedin-in"></i></div><div class="text-truncate"><div class="small text-muted" style="font-size: 0.68rem;">LinkedIn</div><span>View Profile</span></div></a>
                                         <a id="digLinkWeb" href="https://www.abansfinance.lk" target="_blank" class="contact-item-btn"><div class="icon-circle"><i class="fa-solid fa-globe"></i></div><div class="text-truncate"><div class="small text-muted" style="font-size: 0.68rem;">Website</div><span id="digWeb">www.abansfinance.lk</span></div></a>
                                         <div class="contact-item-btn"><div class="icon-circle"><i class="fa-solid fa-location-dot"></i></div><div><div class="small text-muted" style="font-size: 0.68rem;">Office Address</div><span id="digAddress" class="small">No. 456...</span></div></div>
                                     </div>
@@ -357,9 +386,6 @@ body.viewer-mode #standaloneDigitalViewer { display: flex !important; }
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-    // ==========================================
-    // 1. මෙතනට ඔයාගේ ImgBB API Key එක දාන්න!
-    // ==========================================
     const IMGBB_API_KEY = "2d492b5b96c7da05a275edaa47779dc0"; 
 
     let uploadedPhotoBase64 = "";
@@ -373,12 +399,10 @@ body.viewer-mode #standaloneDigitalViewer { display: flex !important; }
         syncAll();
     });
 
-    // Auto-Upload Image to ImgBB Cloud
     async function previewAndUploadPhoto(event) {
         const file = event.target.files[0];
         if (!file) return;
 
-        // 1. Show immediate local preview
         const reader = new FileReader();
         reader.onload = function(e) {
             uploadedPhotoBase64 = e.target.result;
@@ -386,11 +410,10 @@ body.viewer-mode #standaloneDigitalViewer { display: flex !important; }
         };
         reader.readAsDataURL(file);
 
-        // 2. Upload to ImgBB
         const statusEl = document.getElementById('uploadStatus');
         
-        if (IMGBB_API_KEY === "මෙතනට_API_KEY_එක_දාන්න" || IMGBB_API_KEY === "") {
-            statusEl.innerHTML = '<span class="text-danger fw-bold"><i class="fa-solid fa-triangle-exclamation"></i> Auto-upload disabled. Add ImgBB API Key in the code to auto-host images for QR links.</span>';
+        if (IMGBB_API_KEY === "" || IMGBB_API_KEY.includes("API_KEY")) {
+            statusEl.innerHTML = '<span class="text-danger fw-bold"><i class="fa-solid fa-triangle-exclamation"></i> Auto-upload disabled.</span>';
             return;
         }
 
@@ -408,10 +431,10 @@ body.viewer-mode #standaloneDigitalViewer { display: flex !important; }
             
             if(data.success) {
                 document.getElementById('inputPhotoUrl').value = data.data.url;
-                statusEl.innerHTML = '<span class="text-success fw-bold"><i class="fa-solid fa-check-circle"></i> Image uploaded successfully! URL added.</span>';
+                statusEl.innerHTML = '<span class="text-success fw-bold"><i class="fa-solid fa-check-circle"></i> Image uploaded successfully!</span>';
                 syncAll();
             } else {
-                statusEl.innerHTML = '<span class="text-danger fw-bold"><i class="fa-solid fa-circle-xmark"></i> Upload failed. Try again.</span>';
+                statusEl.innerHTML = '<span class="text-danger fw-bold"><i class="fa-solid fa-circle-xmark"></i> Upload failed.</span>';
             }
         } catch (error) {
             statusEl.innerHTML = '<span class="text-danger fw-bold"><i class="fa-solid fa-circle-xmark"></i> Network error during upload.</span>';
@@ -437,6 +460,7 @@ body.viewer-mode #standaloneDigitalViewer { display: flex !important; }
             const whatsapp = params.get('w') || mobile.replace(/[^0-9]/g, '');
             const email = params.get('e') || '';
             const web = params.get('u') || 'www.abansfinance.lk';
+            const linkedin = params.get('l') || '';
             const address = params.get('a') || 'No. 456, R A De Mel Mawatha, Colombo 03';
             const photoUrl = params.get('p') || '';
 
@@ -447,14 +471,15 @@ body.viewer-mode #standaloneDigitalViewer { display: flex !important; }
             document.getElementById('inputWhatsapp').value = whatsapp;
             document.getElementById('inputEmail').value = email;
             document.getElementById('inputWeb').value = web;
+            document.getElementById('inputLinkedin').value = linkedin;
             document.getElementById('inputAddress').value = address;
             document.getElementById('inputPhotoUrl').value = photoUrl;
 
-            populateStandaloneViewer(name, title, mobile, tel, whatsapp, email, web, address, photoUrl);
+            populateStandaloneViewer(name, title, mobile, tel, whatsapp, email, web, linkedin, address, photoUrl);
         }
     }
 
-    function populateStandaloneViewer(name, title, mobile, tel, whatsapp, email, web, address, photoUrl) {
+    function populateStandaloneViewer(name, title, mobile, tel, whatsapp, email, web, linkedin, address, photoUrl) {
         document.title = `${name} | Digital Business Card`;
         document.getElementById('viewName').innerText = name;
         document.getElementById('viewTitle').innerText = title;
@@ -471,6 +496,14 @@ body.viewer-mode #standaloneDigitalViewer { display: flex !important; }
         document.getElementById('viewLinkEmail').href = `mailto:${email}`;
         document.getElementById('viewLinkWeb').href = fullWebUrl;
 
+        const viewLinkLinkedin = document.getElementById('viewLinkLinkedin');
+        if(linkedin) {
+            viewLinkLinkedin.href = linkedin.startsWith('http') ? linkedin : `https://${linkedin}`;
+            viewLinkLinkedin.style.display = 'flex';
+        } else {
+            viewLinkLinkedin.style.display = 'none';
+        }
+
         const avatarSrc = uploadedPhotoBase64 || photoUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=5b2869&color=fff&size=256`;
         document.getElementById('viewAvatar').src = avatarSrc;
     }
@@ -483,10 +516,11 @@ body.viewer-mode #standaloneDigitalViewer { display: flex !important; }
         const whatsapp = document.getElementById('inputWhatsapp').value.trim();
         const email = document.getElementById('inputEmail').value.trim();
         const web = document.getElementById('inputWeb').value.trim();
+        const linkedin = document.getElementById('inputLinkedin').value.trim();
         const address = document.getElementById('inputAddress').value.trim();
         const photoUrl = document.getElementById('inputPhotoUrl').value.trim();
 
-        populateStandaloneViewer(name, title, mobile, tel, whatsapp, email, web, address, photoUrl);
+        populateStandaloneViewer(name, title, mobile, tel, whatsapp, email, web, linkedin, address, photoUrl);
         document.body.classList.add('viewer-mode');
 
         if (!document.getElementById('backToStudioBtn')) {
@@ -544,6 +578,7 @@ body.viewer-mode #standaloneDigitalViewer { display: flex !important; }
         params.set('w', document.getElementById('inputWhatsapp').value.trim());
         params.set('e', document.getElementById('inputEmail').value.trim());
         params.set('u', document.getElementById('inputWeb').value.trim());
+        params.set('l', document.getElementById('inputLinkedin').value.trim());
         params.set('a', document.getElementById('inputAddress').value.trim());
 
         const photoUrl = document.getElementById('inputPhotoUrl').value.trim();
@@ -561,6 +596,7 @@ body.viewer-mode #standaloneDigitalViewer { display: flex !important; }
         const fax = document.getElementById('inputFax').value.trim();
         const email = document.getElementById('inputEmail').value.trim();
         const web = document.getElementById('inputWeb').value.trim();
+        const linkedin = document.getElementById('inputLinkedin').value.trim();
         const address = document.getElementById('inputAddress').value.trim();
         const photoUrl = document.getElementById('inputPhotoUrl').value.trim();
 
@@ -609,6 +645,14 @@ body.viewer-mode #standaloneDigitalViewer { display: flex !important; }
         document.getElementById('digLinkWhatsapp').href = `https://wa.me/${whatsapp.replace(/[^0-9]/g, '')}`;
         document.getElementById('digLinkEmail').href = `mailto:${email}`;
         document.getElementById('digLinkWeb').href = fullWebUrl;
+
+        const digLinkLinkedin = document.getElementById('digLinkLinkedin');
+        if(linkedin) {
+            digLinkLinkedin.href = linkedin.startsWith('http') ? linkedin : `https://${linkedin}`;
+            digLinkLinkedin.style.display = 'flex';
+        } else {
+            digLinkLinkedin.style.display = 'none';
+        }
 
         const qrMode = document.getElementById('qrModeSelect').value;
         const publicBase = document.getElementById('inputPublicBaseUrl').value.trim();
@@ -712,12 +756,20 @@ body.viewer-mode #standaloneDigitalViewer { display: flex !important; }
         const whatsapp = document.getElementById('inputWhatsapp').value.trim().replace(/[^0-9]/g, '');
         const email = document.getElementById('inputEmail').value.trim();
         const web = document.getElementById('inputWeb').value.trim();
+        const linkedin = document.getElementById('inputLinkedin').value.trim();
         const address = document.getElementById('inputAddress').value.trim();
         const photoUrl = document.getElementById('inputPhotoUrl').value.trim();
         const fullWebUrl = web.startsWith('http') ? web : `https://${web}`;
         const cleanWebText = web.replace(/^https?:\/\//, '');
         const avatarSrc = uploadedPhotoBase64 || photoUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=5b2869&color=fff&size=256`;
-        const standaloneHTML = `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>${name} | Abans Finance PLC</title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"><style>body{background:#f5f5f7;font-family:'Segoe UI',system-ui,sans-serif;margin:0;}.card-wrapper{max-width:440px;margin:0 auto;min-height:100vh;background:#f5f5f7;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 0 30px rgba(0,0,0,0.08);}.header-bg{background:linear-gradient(135deg,#5b2869 0%,#3b1747 100%);height:145px;}.profile-box{padding:0 22px 30px;text-align:center;margin-top:-75px;}.avatar{width:150px;height:150px;border-radius:50%;border:5px solid #fff;box-shadow:0 8px 25px rgba(0,0,0,0.12);object-fit:cover;background:#fff;margin-bottom:14px;}.save-btn{background:#000;color:#fff;font-weight:600;padding:15px;border-radius:30px;border:none;width:100%;font-size:0.98rem;margin-bottom:16px;box-shadow:0 4px 12px rgba(0,0,0,0.18);transition:0.2s;}.save-btn:hover{background:#5b2869;}.item-btn{background:#fff;color:#1f2937;font-weight:600;padding:12px 16px;border-radius:18px;border:1px solid #e5e7eb;width:100%;display:flex;align-items:center;gap:14px;text-decoration:none;margin-bottom:10px;text-align:left;}.icon-box{width:36px;height:36px;border-radius:50%;background:#f3e8ff;color:#5b2869;display:flex;align-items:center;justify-content:center;flex-shrink:0;}</style></head><body><div class="card-wrapper"><div><div class="header-bg"></div><div class="profile-box"><img src="${avatarSrc}" class="avatar" alt="${name}"><h1 class="h4 fw-bold mb-1">${name}</h1><p class="text-secondary mb-1">${title}</p><div class="small fw-bold text-uppercase mb-4" style="color:#5b2869;">ABANS FINANCE PLC</div><button onclick="saveVCF()" class="save-btn"><i class="fa-solid fa-user-plus me-2"></i>Exchange / Save Contact</button><a href="tel:${mobile.replace(/\s+/g, '')}" class="item-btn"><div class="icon-box"><i class="fa-solid fa-phone"></i></div><div><div class="small text-muted" style="font-size:0.7rem;">Mobile</div>${mobile}</div></a><a href="tel:${tel.replace(/\s+/g, '')}" class="item-btn"><div class="icon-box"><i class="fa-solid fa-building"></i></div><div><div class="small text-muted" style="font-size:0.7rem;">Office</div>${tel}</div></a><a href="https://wa.me/${whatsapp}" target="_blank" class="item-btn"><div class="icon-box"><i class="fa-brands fa-whatsapp"></i></div><div><div class="small text-muted" style="font-size:0.7rem;">WhatsApp</div>Chat on WhatsApp</div></a><a href="mailto:${email}" class="item-btn"><div class="icon-box"><i class="fa-solid fa-envelope"></i></div><div><div class="small text-muted" style="font-size:0.7rem;">Email</div>${email}</div></a><a href="${fullWebUrl}" target="_blank" class="item-btn"><div class="icon-box"><i class="fa-solid fa-globe"></i></div><div><div class="small text-muted" style="font-size:0.7rem;">Website</div>${cleanWebText}</div></a><div class="item-btn"><div class="icon-box"><i class="fa-solid fa-location-dot"></i></div><div><div class="small text-muted" style="font-size:0.7rem;">Address</div><span class="small">${address}</span></div></div></div></div><div class="text-center small text-muted py-3 fw-bold">ABANS FINANCE PLC • DIGITAL CARD</div></div><script>function saveVCF(){const vcf=["BEGIN:VCARD","VERSION:3.0","FN:${name}","N:${name};;;;","ORG:Abans Finance PLC","TITLE:${title}","TEL;TYPE=CELL,VOICE:${mobile}","TEL;TYPE=WORK,VOICE:${tel}","EMAIL:${email}","URL:${fullWebUrl}","ADR;TYPE=WORK:;;${address};;;;","END:VCARD"].join("\\r\\n");const blob=new Blob([vcf],{type:"text/vcard"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="${name.replace(/\s+/g, '_')}.vcf";a.click();}<\/script></body></html>`;
+        
+        let linkedinHTML = '';
+        if(linkedin) {
+            const liUrl = linkedin.startsWith('http') ? linkedin : `https://${linkedin}`;
+            linkedinHTML = `<a href="${liUrl}" target="_blank" class="item-btn"><div class="icon-box"><i class="fa-brands fa-linkedin-in"></i></div><div><div class="small text-muted" style="font-size:0.7rem;">LinkedIn</div>View Profile</div></a>`;
+        }
+
+        const standaloneHTML = `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>${name} | Abans Finance PLC</title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"><style>body{background:#f5f5f7;font-family:'Segoe UI',system-ui,sans-serif;margin:0;}.card-wrapper{max-width:440px;margin:0 auto;min-height:100vh;background:#f5f5f7;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 0 30px rgba(0,0,0,0.08);}.header-bg{background:linear-gradient(135deg,#5b2869 0%,#3b1747 100%);height:145px; position: relative;}.digital-logo-box { position: absolute; top: 16px; left: 16px; background: #fff; padding: 5px 8px; border-radius: 4px; display: flex; align-items: stretch; gap: 5px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); z-index: 2; }.digital-logo-text { display: flex; flex-direction: column; justify-content: center; }.digital-logo-abans { font-family: 'Arial Black', Arial, sans-serif; font-size: 14px; font-weight: 900; color: #5b2869; line-height: 0.8; letter-spacing: -0.5px; }.digital-logo-finance { font-size: 9px; font-weight: 600; color: #525866; line-height: 0.9; margin-top: 2px; }.digital-logo-bar { width: 3px; background: #5b2869; border-radius: 1px; }.profile-box{padding:0 22px 30px;text-align:center;margin-top:-75px; position:relative; z-index:3;}.avatar{width:150px;height:150px;border-radius:50%;border:5px solid #fff;box-shadow:0 8px 25px rgba(0,0,0,0.12);object-fit:cover;background:#fff;margin-bottom:14px;}.save-btn{background:#000;color:#fff;font-weight:600;padding:15px;border-radius:30px;border:none;width:100%;font-size:0.98rem;margin-bottom:16px;box-shadow:0 4px 12px rgba(0,0,0,0.18);transition:0.2s;}.save-btn:hover{background:#5b2869;}.item-btn{background:#fff;color:#1f2937;font-weight:600;padding:12px 16px;border-radius:18px;border:1px solid #e5e7eb;width:100%;display:flex;align-items:center;gap:14px;text-decoration:none;margin-bottom:10px;text-align:left;}.icon-box{width:36px;height:36px;border-radius:50%;background:#f3e8ff;color:#5b2869;display:flex;align-items:center;justify-content:center;flex-shrink:0;}</style></head><body><div class="card-wrapper"><div><div class="header-bg"><div class="digital-logo-box"><div class="digital-logo-text"><div class="digital-logo-abans">Abans</div><div class="digital-logo-finance">Finance</div></div><div class="digital-logo-bar"></div></div></div><div class="profile-box"><img src="${avatarSrc}" class="avatar" alt="${name}"><h1 class="h4 fw-bold mb-1">${name}</h1><p class="text-secondary mb-1">${title}</p><div class="small fw-bold text-uppercase mb-4" style="color:#5b2869;">ABANS FINANCE PLC</div><button onclick="saveVCF()" class="save-btn"><i class="fa-solid fa-user-plus me-2"></i>Exchange / Save Contact</button><a href="tel:${mobile.replace(/\s+/g, '')}" class="item-btn"><div class="icon-box"><i class="fa-solid fa-phone"></i></div><div><div class="small text-muted" style="font-size:0.7rem;">Mobile</div>${mobile}</div></a><a href="tel:${tel.replace(/\s+/g, '')}" class="item-btn"><div class="icon-box"><i class="fa-solid fa-building"></i></div><div><div class="small text-muted" style="font-size:0.7rem;">Office</div>${tel}</div></a><a href="https://wa.me/${whatsapp}" target="_blank" class="item-btn"><div class="icon-box"><i class="fa-brands fa-whatsapp"></i></div><div><div class="small text-muted" style="font-size:0.7rem;">WhatsApp</div>Chat on WhatsApp</div></a><a href="mailto:${email}" class="item-btn"><div class="icon-box"><i class="fa-solid fa-envelope"></i></div><div><div class="small text-muted" style="font-size:0.7rem;">Email</div>${email}</div></a>${linkedinHTML}<a href="${fullWebUrl}" target="_blank" class="item-btn"><div class="icon-box"><i class="fa-solid fa-globe"></i></div><div><div class="small text-muted" style="font-size:0.7rem;">Website</div>${cleanWebText}</div></a><div class="item-btn"><div class="icon-box"><i class="fa-solid fa-location-dot"></i></div><div><div class="small text-muted" style="font-size:0.7rem;">Address</div><span class="small">${address}</span></div></div></div></div><div class="text-center small text-muted py-3 fw-bold">ABANS FINANCE PLC • DIGITAL CARD</div></div><script>function saveVCF(){const vcf=["BEGIN:VCARD","VERSION:3.0","FN:${name}","N:${name};;;;","ORG:Abans Finance PLC","TITLE:${title}","TEL;TYPE=CELL,VOICE:${mobile}","TEL;TYPE=WORK,VOICE:${tel}","EMAIL:${email}","URL:${fullWebUrl}","ADR;TYPE=WORK:;;${address};;;;","END:VCARD"].join("\\r\\n");const blob=new Blob([vcf],{type:"text/vcard"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="${name.replace(/\s+/g, '_')}.vcf";a.click();}<\/script></body></html>`;
         const blob = new Blob([standaloneHTML], { type: "text/html;charset=utf-8" });
         const a = document.createElement("a");
         a.href = URL.createObjectURL(blob);
