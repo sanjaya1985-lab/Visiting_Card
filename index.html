@@ -181,31 +181,32 @@ body.viewer-mode #standaloneDigitalViewer { display: flex !important; }
                 <div class="row g-3">
                     <div class="col-md-6">
                         <label class="form-label fw-bold small">Full Name</label>
-                        <input type="text" id="inputName" class="form-control" value="Prashad Samantha" oninput="syncAll()">
+                        <input type="text" id="inputName" class="form-control" placeholder="Prashad Samantha" oninput="syncAll()">
                     </div>
                     <div class="col-md-6">
                         <label class="form-label fw-bold small">Designation</label>
-                        <input type="text" id="inputDesignation" class="form-control" value="Chief Financial Officer" oninput="syncAll()">
+                        <input type="text" id="inputDesignation" class="form-control" placeholder="Chief Financial Officer" oninput="syncAll()">
                     </div>
                     <div class="col-md-4">
                         <label class="form-label fw-bold small">Mobile</label>
-                        <input type="tel" id="inputMobile" class="form-control" value="077 209 2209" oninput="syncAll()">
+                        <input type="tel" id="inputMobile" class="form-control" placeholder="+94 77 209 2209" oninput="formatPhone(this); syncAll();">
                     </div>
                     <div class="col-md-4">
                         <label class="form-label fw-bold small">Telephone (Work)</label>
-                        <input type="text" id="inputTel" class="form-control" value="011 220 8888" oninput="syncAll()">
+                        <input type="tel" id="inputTel" class="form-control" placeholder="+94 71 448 5859" oninput="formatPhone(this); syncAll();">
                     </div>
                     <div class="col-md-4">
                         <label class="form-label fw-bold small">WhatsApp Number</label>
-                        <input type="text" id="inputWhatsapp" class="form-control" value="94772092209" oninput="syncAll()">
+                        <input type="tel" id="inputWhatsapp" class="form-control" placeholder="+94 71 448 5859" oninput="formatPhone(this); syncAll();">
                     </div>
                     <div class="col-md-4">
                         <label class="form-label fw-bold small">Fax (Optional)</label>
-                        <input type="text" id="inputFax" class="form-control" oninput="syncAll()">
+                        <input type="tel" id="inputFax" class="form-control" placeholder="+94 71 448 5859" oninput="formatPhone(this); syncAll();">
                     </div>
                     <div class="col-md-8">
                         <label class="form-label fw-bold small">Email Address</label>
-                        <input type="email" id="inputEmail" class="form-control" value="samanthab@abansfinance.lk" oninput="syncAll()">
+                        <input type="email" id="inputEmail" class="form-control" placeholder="name@abansfinance.lk" oninput="validateEmail(this); syncAll();">
+                        <div class="invalid-feedback" style="font-size: 0.72rem;">Email address must end with @abansfinance.lk</div>
                     </div>
                     <div class="col-md-6">
                         <label class="form-label fw-bold small">Website</label>
@@ -399,6 +400,36 @@ body.viewer-mode #standaloneDigitalViewer { display: flex !important; }
         syncAll();
     });
 
+    // Auto Format Phone Numbers to +94 XX XXX XXXX
+    function formatPhone(el) {
+        let val = el.value.replace(/[^\d+]/g, '');
+        
+        if (val.startsWith('0') && val.length > 1) {
+            val = '+94' + val.substring(1);
+        }
+        
+        if (val.startsWith('+94')) {
+            let num = val.substring(3).replace(/\D/g, ''); 
+            let formatted = '+94';
+            if (num.length > 0) formatted += ' ' + num.substring(0, 2);
+            if (num.length > 2) formatted += ' ' + num.substring(2, 5);
+            if (num.length > 5) formatted += ' ' + num.substring(5, 9);
+            el.value = formatted;
+        } else {
+            el.value = val; 
+        }
+    }
+
+    // Validate Email Address
+    function validateEmail(el) {
+        let val = el.value.trim().toLowerCase();
+        if(val.length > 0 && !val.endsWith('@abansfinance.lk')) {
+            el.classList.add('is-invalid');
+        } else {
+            el.classList.remove('is-invalid');
+        }
+    }
+
     async function previewAndUploadPhoto(event) {
         const file = event.target.files[0];
         if (!file) return;
@@ -571,15 +602,27 @@ body.viewer-mode #standaloneDigitalViewer { display: flex !important; }
         const cleanBase = publicBase.split('?')[0];
         const params = new URLSearchParams();
         params.set('card', '1');
-        params.set('n', document.getElementById('inputName').value.trim());
-        params.set('t', document.getElementById('inputDesignation').value.trim());
-        params.set('m', document.getElementById('inputMobile').value.trim());
-        params.set('o', document.getElementById('inputTel').value.trim());
-        params.set('w', document.getElementById('inputWhatsapp').value.trim());
-        params.set('e', document.getElementById('inputEmail').value.trim());
-        params.set('u', document.getElementById('inputWeb').value.trim());
-        params.set('l', document.getElementById('inputLinkedin').value.trim());
-        params.set('a', document.getElementById('inputAddress').value.trim());
+        
+        // Use placeholders if actual values are empty
+        const name = document.getElementById('inputName').value.trim() || 'Prashad Samantha';
+        const title = document.getElementById('inputDesignation').value.trim() || 'Chief Financial Officer';
+        const mobile = document.getElementById('inputMobile').value.trim() || '+94 77 209 2209';
+        const tel = document.getElementById('inputTel').value.trim() || '+94 71 448 5859';
+        const whatsapp = document.getElementById('inputWhatsapp').value.trim() || '+94 71 448 5859';
+        const email = document.getElementById('inputEmail').value.trim() || 'samanthab@abansfinance.lk';
+        const web = document.getElementById('inputWeb').value.trim() || 'www.abansfinance.lk';
+        const linkedin = document.getElementById('inputLinkedin').value.trim();
+        const address = document.getElementById('inputAddress').value.trim() || 'No. 456, R A De Mel Mawatha, Colombo 03';
+
+        params.set('n', name);
+        params.set('t', title);
+        params.set('m', mobile);
+        params.set('o', tel);
+        params.set('w', whatsapp);
+        params.set('e', email);
+        params.set('u', web);
+        params.set('l', linkedin);
+        params.set('a', address);
 
         const photoUrl = document.getElementById('inputPhotoUrl').value.trim();
         if (photoUrl) { params.set('p', photoUrl); }
@@ -588,30 +631,46 @@ body.viewer-mode #standaloneDigitalViewer { display: flex !important; }
     }
 
     function syncAll() {
+        // Fetch values or fallback to placeholders
         const name = document.getElementById('inputName').value.trim();
         const designation = document.getElementById('inputDesignation').value.trim();
         const mobile = document.getElementById('inputMobile').value.trim();
         const tel = document.getElementById('inputTel').value.trim();
         const whatsapp = document.getElementById('inputWhatsapp').value.trim();
         const fax = document.getElementById('inputFax').value.trim();
-        const email = document.getElementById('inputEmail').value.trim();
+        const emailInput = document.getElementById('inputEmail');
+        const email = emailInput.value.trim();
         const web = document.getElementById('inputWeb').value.trim();
         const linkedin = document.getElementById('inputLinkedin').value.trim();
         const address = document.getElementById('inputAddress').value.trim();
         const photoUrl = document.getElementById('inputPhotoUrl').value.trim();
 
-        const displayName = name || 'Your Name';
-        const displayTitle = designation || 'Your Designation';
-        const fullWebUrl = web.startsWith('http') ? web : `https://${web}`;
-        const cleanWebText = web.replace(/^https?:\/\//, '');
+        // Validations visual updates
+        if(email.length > 0 && !email.toLowerCase().endsWith('@abansfinance.lk')) {
+            emailInput.classList.add('is-invalid');
+        } else {
+            emailInput.classList.remove('is-invalid');
+        }
+
+        const displayName = name || 'Prashad Samantha';
+        const displayTitle = designation || 'Chief Financial Officer';
+        const displayMobile = mobile || '+94 77 209 2209';
+        const displayTel = tel || '+94 71 448 5859';
+        const displayEmail = email || 'samanthab@abansfinance.lk';
+        const displayWeb = web || 'www.abansfinance.lk';
+        const displayAddress = address || 'No. 456, R A De Mel Mawatha, Colombo 03';
+        const displayWhatsapp = whatsapp || '+94 71 448 5859';
+
+        const fullWebUrl = displayWeb.startsWith('http') ? displayWeb : `https://${displayWeb}`;
+        const cleanWebText = displayWeb.replace(/^https?:\/\//, '');
 
         document.getElementById('cardName').innerText = displayName;
         document.getElementById('cardDesignation').innerText = displayTitle;
-        document.getElementById('cardMobile').innerText = mobile;
-        document.getElementById('cardTel').innerText = tel;
-        document.getElementById('cardEmail').innerText = email;
+        document.getElementById('cardMobile').innerText = displayMobile;
+        document.getElementById('cardTel').innerText = displayTel;
+        document.getElementById('cardEmail').innerText = displayEmail;
         document.getElementById('cardWeb').innerText = cleanWebText;
-        document.getElementById('cardAddress').innerText = address;
+        document.getElementById('cardAddress').innerText = displayAddress;
 
         const faxContainer = document.getElementById('faxContainer');
         if (fax) {
@@ -634,16 +693,16 @@ body.viewer-mode #standaloneDigitalViewer { display: flex !important; }
         document.getElementById('digName').innerText = displayName;
         document.getElementById('qrModalName').innerText = displayName;
         document.getElementById('digTitle').innerText = displayTitle;
-        document.getElementById('digMobile').innerText = mobile;
-        document.getElementById('digTel').innerText = tel;
-        document.getElementById('digEmail').innerText = email;
+        document.getElementById('digMobile').innerText = displayMobile;
+        document.getElementById('digTel').innerText = displayTel;
+        document.getElementById('digEmail').innerText = displayEmail;
         document.getElementById('digWeb').innerText = cleanWebText;
-        document.getElementById('digAddress').innerText = address;
+        document.getElementById('digAddress').innerText = displayAddress;
 
-        document.getElementById('digLinkMobile').href = `tel:${mobile.replace(/\s+/g, '')}`;
-        document.getElementById('digLinkTel').href = `tel:${tel.replace(/\s+/g, '')}`;
-        document.getElementById('digLinkWhatsapp').href = `https://wa.me/${whatsapp.replace(/[^0-9]/g, '')}`;
-        document.getElementById('digLinkEmail').href = `mailto:${email}`;
+        document.getElementById('digLinkMobile').href = `tel:${displayMobile.replace(/\s+/g, '')}`;
+        document.getElementById('digLinkTel').href = `tel:${displayTel.replace(/\s+/g, '')}`;
+        document.getElementById('digLinkWhatsapp').href = `https://wa.me/${displayWhatsapp.replace(/[^0-9]/g, '')}`;
+        document.getElementById('digLinkEmail').href = `mailto:${displayEmail}`;
         document.getElementById('digLinkWeb').href = fullWebUrl;
 
         const digLinkLinkedin = document.getElementById('digLinkLinkedin');
@@ -657,8 +716,8 @@ body.viewer-mode #standaloneDigitalViewer { display: flex !important; }
         const qrMode = document.getElementById('qrModeSelect').value;
         const publicBase = document.getElementById('inputPublicBaseUrl').value.trim();
         const noticeEl = document.getElementById('qrStatusNotice');
-        const cleanMobile = mobile.replace(/\s+/g, '');
-        const meCardPayload = `MECARD:N:${name};ORG:Abans Finance PLC;TIL:${designation};TEL:${cleanMobile};EMAIL:${email};;`;
+        const cleanMobileForQr = displayMobile.replace(/\s+/g, '');
+        const meCardPayload = `MECARD:N:${displayName};ORG:Abans Finance PLC;TIL:${displayTitle};TEL:${cleanMobileForQr};EMAIL:${displayEmail};;`;
 
         let qrPayload = meCardPayload;
 
@@ -700,7 +759,7 @@ body.viewer-mode #standaloneDigitalViewer { display: flex !important; }
                 new bootstrap.Tab(printTabBtn).show();
                 await new Promise(r => setTimeout(r, 200));
             }
-            const name = document.getElementById('inputName').value.trim() || 'Visiting_Card';
+            const name = document.getElementById('inputName').value.trim() || 'Prashad Samantha';
             const safeFileName = name.replace(/\s+/g, '_') + '_Business_Card.pdf';
             const cardFront = document.getElementById('cardFront');
             const cardBack = document.getElementById('cardBack');
@@ -730,34 +789,35 @@ body.viewer-mode #standaloneDigitalViewer { display: flex !important; }
     }
 
     function downloadVCF() {
-        const name = document.getElementById('inputName').value.trim();
-        const designation = document.getElementById('inputDesignation').value.trim();
-        const mobile = document.getElementById('inputMobile').value.trim();
-        const tel = document.getElementById('inputTel').value.trim();
-        const email = document.getElementById('inputEmail').value.trim();
-        const web = document.getElementById('inputWeb').value.trim();
-        const address = document.getElementById('inputAddress').value.trim();
+        const name = document.getElementById('inputName').value.trim() || 'Prashad Samantha';
+        const designation = document.getElementById('inputDesignation').value.trim() || 'Chief Financial Officer';
+        const mobile = document.getElementById('inputMobile').value.trim() || '+94 77 209 2209';
+        const tel = document.getElementById('inputTel').value.trim() || '+94 71 448 5859';
+        const email = document.getElementById('inputEmail').value.trim() || 'samanthab@abansfinance.lk';
+        const web = document.getElementById('inputWeb').value.trim() || 'www.abansfinance.lk';
+        const address = document.getElementById('inputAddress').value.trim() || 'No. 456, R A De Mel Mawatha, Colombo 03';
         const fullWebUrl = web.startsWith('http') ? web : `https://${web}`;
         const vcfLines = ["BEGIN:VCARD","VERSION:3.0",`FN:${name}`,`N:${name};;;;`,"ORG:Abans Finance PLC",`TITLE:${designation}`,`TEL;TYPE=CELL,VOICE:${mobile}`,`TEL;TYPE=WORK,VOICE:${tel}`,`EMAIL;TYPE=PREF,INTERNET:${email}`,`URL:${fullWebUrl}`,`ADR;TYPE=WORK:;;${address};;;;`,"END:VCARD"];
         const blob = new Blob([vcfLines.join("\r\n")], { type: "text/vcard;charset=utf-8" });
         const link = document.createElement("a");
         link.href = URL.createObjectURL(blob);
-        link.download = `${(name || 'Contact').replace(/\s+/g, '_')}.vcf`;
+        link.download = `${name.replace(/\s+/g, '_')}.vcf`;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
     }
 
     function exportStandaloneHTML() {
-        const name = document.getElementById('inputName').value.trim() || 'Employee';
-        const title = document.getElementById('inputDesignation').value.trim();
-        const mobile = document.getElementById('inputMobile').value.trim();
-        const tel = document.getElementById('inputTel').value.trim();
-        const whatsapp = document.getElementById('inputWhatsapp').value.trim().replace(/[^0-9]/g, '');
-        const email = document.getElementById('inputEmail').value.trim();
-        const web = document.getElementById('inputWeb').value.trim();
+        const name = document.getElementById('inputName').value.trim() || 'Prashad Samantha';
+        const title = document.getElementById('inputDesignation').value.trim() || 'Chief Financial Officer';
+        const mobile = document.getElementById('inputMobile').value.trim() || '+94 77 209 2209';
+        const tel = document.getElementById('inputTel').value.trim() || '+94 71 448 5859';
+        const whatsapp = document.getElementById('inputWhatsapp').value.trim() || '+94 71 448 5859';
+        const cleanWhatsapp = whatsapp.replace(/[^0-9]/g, '');
+        const email = document.getElementById('inputEmail').value.trim() || 'samanthab@abansfinance.lk';
+        const web = document.getElementById('inputWeb').value.trim() || 'www.abansfinance.lk';
         const linkedin = document.getElementById('inputLinkedin').value.trim();
-        const address = document.getElementById('inputAddress').value.trim();
+        const address = document.getElementById('inputAddress').value.trim() || 'No. 456, R A De Mel Mawatha, Colombo 03';
         const photoUrl = document.getElementById('inputPhotoUrl').value.trim();
         const fullWebUrl = web.startsWith('http') ? web : `https://${web}`;
         const cleanWebText = web.replace(/^https?:\/\//, '');
@@ -769,7 +829,7 @@ body.viewer-mode #standaloneDigitalViewer { display: flex !important; }
             linkedinHTML = `<a href="${liUrl}" target="_blank" class="item-btn"><div class="icon-box"><i class="fa-brands fa-linkedin-in"></i></div><div><div class="small text-muted" style="font-size:0.7rem;">LinkedIn</div>View Profile</div></a>`;
         }
 
-        const standaloneHTML = `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>${name} | Abans Finance PLC</title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"><style>body{background:#f5f5f7;font-family:'Segoe UI',system-ui,sans-serif;margin:0;}.card-wrapper{max-width:440px;margin:0 auto;min-height:100vh;background:#f5f5f7;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 0 30px rgba(0,0,0,0.08);}.header-bg{background:linear-gradient(135deg,#5b2869 0%,#3b1747 100%);height:145px; position: relative;}.digital-logo-box { position: absolute; top: 16px; left: 16px; background: #fff; padding: 5px 8px; border-radius: 4px; display: flex; align-items: stretch; gap: 5px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); z-index: 2; }.digital-logo-text { display: flex; flex-direction: column; justify-content: center; }.digital-logo-abans { font-family: 'Arial Black', Arial, sans-serif; font-size: 14px; font-weight: 900; color: #5b2869; line-height: 0.8; letter-spacing: -0.5px; }.digital-logo-finance { font-size: 9px; font-weight: 600; color: #525866; line-height: 0.9; margin-top: 2px; }.digital-logo-bar { width: 3px; background: #5b2869; border-radius: 1px; }.profile-box{padding:0 22px 30px;text-align:center;margin-top:-75px; position:relative; z-index:3;}.avatar{width:150px;height:150px;border-radius:50%;border:5px solid #fff;box-shadow:0 8px 25px rgba(0,0,0,0.12);object-fit:cover;background:#fff;margin-bottom:14px;}.save-btn{background:#000;color:#fff;font-weight:600;padding:15px;border-radius:30px;border:none;width:100%;font-size:0.98rem;margin-bottom:16px;box-shadow:0 4px 12px rgba(0,0,0,0.18);transition:0.2s;}.save-btn:hover{background:#5b2869;}.item-btn{background:#fff;color:#1f2937;font-weight:600;padding:12px 16px;border-radius:18px;border:1px solid #e5e7eb;width:100%;display:flex;align-items:center;gap:14px;text-decoration:none;margin-bottom:10px;text-align:left;}.icon-box{width:36px;height:36px;border-radius:50%;background:#f3e8ff;color:#5b2869;display:flex;align-items:center;justify-content:center;flex-shrink:0;}</style></head><body><div class="card-wrapper"><div><div class="header-bg"><div class="digital-logo-box"><div class="digital-logo-text"><div class="digital-logo-abans">Abans</div><div class="digital-logo-finance">Finance</div></div><div class="digital-logo-bar"></div></div></div><div class="profile-box"><img src="${avatarSrc}" class="avatar" alt="${name}"><h1 class="h4 fw-bold mb-1">${name}</h1><p class="text-secondary mb-1">${title}</p><div class="small fw-bold text-uppercase mb-4" style="color:#5b2869;">ABANS FINANCE PLC</div><button onclick="saveVCF()" class="save-btn"><i class="fa-solid fa-user-plus me-2"></i>Exchange / Save Contact</button><a href="tel:${mobile.replace(/\s+/g, '')}" class="item-btn"><div class="icon-box"><i class="fa-solid fa-phone"></i></div><div><div class="small text-muted" style="font-size:0.7rem;">Mobile</div>${mobile}</div></a><a href="tel:${tel.replace(/\s+/g, '')}" class="item-btn"><div class="icon-box"><i class="fa-solid fa-building"></i></div><div><div class="small text-muted" style="font-size:0.7rem;">Office</div>${tel}</div></a><a href="https://wa.me/${whatsapp}" target="_blank" class="item-btn"><div class="icon-box"><i class="fa-brands fa-whatsapp"></i></div><div><div class="small text-muted" style="font-size:0.7rem;">WhatsApp</div>Chat on WhatsApp</div></a><a href="mailto:${email}" class="item-btn"><div class="icon-box"><i class="fa-solid fa-envelope"></i></div><div><div class="small text-muted" style="font-size:0.7rem;">Email</div>${email}</div></a>${linkedinHTML}<a href="${fullWebUrl}" target="_blank" class="item-btn"><div class="icon-box"><i class="fa-solid fa-globe"></i></div><div><div class="small text-muted" style="font-size:0.7rem;">Website</div>${cleanWebText}</div></a><div class="item-btn"><div class="icon-box"><i class="fa-solid fa-location-dot"></i></div><div><div class="small text-muted" style="font-size:0.7rem;">Address</div><span class="small">${address}</span></div></div></div></div><div class="text-center small text-muted py-3 fw-bold">ABANS FINANCE PLC • DIGITAL CARD</div></div><script>function saveVCF(){const vcf=["BEGIN:VCARD","VERSION:3.0","FN:${name}","N:${name};;;;","ORG:Abans Finance PLC","TITLE:${title}","TEL;TYPE=CELL,VOICE:${mobile}","TEL;TYPE=WORK,VOICE:${tel}","EMAIL:${email}","URL:${fullWebUrl}","ADR;TYPE=WORK:;;${address};;;;","END:VCARD"].join("\\r\\n");const blob=new Blob([vcf],{type:"text/vcard"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="${name.replace(/\s+/g, '_')}.vcf";a.click();}<\/script></body></html>`;
+        const standaloneHTML = `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>${name} | Abans Finance PLC</title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"><style>body{background:#f5f5f7;font-family:'Segoe UI',system-ui,sans-serif;margin:0;}.card-wrapper{max-width:440px;margin:0 auto;min-height:100vh;background:#f5f5f7;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 0 30px rgba(0,0,0,0.08);}.header-bg{background:linear-gradient(135deg,#5b2869 0%,#3b1747 100%);height:145px; position: relative;}.digital-logo-box { position: absolute; top: 16px; left: 16px; background: #fff; padding: 5px 8px; border-radius: 4px; display: flex; align-items: stretch; gap: 5px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); z-index: 2; }.digital-logo-text { display: flex; flex-direction: column; justify-content: center; }.digital-logo-abans { font-family: 'Arial Black', Arial, sans-serif; font-size: 14px; font-weight: 900; color: #5b2869; line-height: 0.8; letter-spacing: -0.5px; }.digital-logo-finance { font-size: 9px; font-weight: 600; color: #525866; line-height: 0.9; margin-top: 2px; }.digital-logo-bar { width: 3px; background: #5b2869; border-radius: 1px; }.profile-box{padding:0 22px 30px;text-align:center;margin-top:-75px; position:relative; z-index:3;}.avatar{width:150px;height:150px;border-radius:50%;border:5px solid #fff;box-shadow:0 8px 25px rgba(0,0,0,0.12);object-fit:cover;background:#fff;margin-bottom:14px;}.save-btn{background:#000;color:#fff;font-weight:600;padding:15px;border-radius:30px;border:none;width:100%;font-size:0.98rem;margin-bottom:16px;box-shadow:0 4px 12px rgba(0,0,0,0.18);transition:0.2s;}.save-btn:hover{background:#5b2869;}.item-btn{background:#fff;color:#1f2937;font-weight:600;padding:12px 16px;border-radius:18px;border:1px solid #e5e7eb;width:100%;display:flex;align-items:center;gap:14px;text-decoration:none;margin-bottom:10px;text-align:left;}.icon-box{width:36px;height:36px;border-radius:50%;background:#f3e8ff;color:#5b2869;display:flex;align-items:center;justify-content:center;flex-shrink:0;}</style></head><body><div class="card-wrapper"><div><div class="header-bg"><div class="digital-logo-box"><div class="digital-logo-text"><div class="digital-logo-abans">Abans</div><div class="digital-logo-finance">Finance</div></div><div class="digital-logo-bar"></div></div></div><div class="profile-box"><img src="${avatarSrc}" class="avatar" alt="${name}"><h1 class="h4 fw-bold mb-1">${name}</h1><p class="text-secondary mb-1">${title}</p><div class="small fw-bold text-uppercase mb-4" style="color:#5b2869;">ABANS FINANCE PLC</div><button onclick="saveVCF()" class="save-btn"><i class="fa-solid fa-user-plus me-2"></i>Exchange / Save Contact</button><a href="tel:${mobile.replace(/\s+/g, '')}" class="item-btn"><div class="icon-box"><i class="fa-solid fa-phone"></i></div><div><div class="small text-muted" style="font-size:0.7rem;">Mobile</div>${mobile}</div></a><a href="tel:${tel.replace(/\s+/g, '')}" class="item-btn"><div class="icon-box"><i class="fa-solid fa-building"></i></div><div><div class="small text-muted" style="font-size:0.7rem;">Office</div>${tel}</div></a><a href="https://wa.me/${cleanWhatsapp}" target="_blank" class="item-btn"><div class="icon-box"><i class="fa-brands fa-whatsapp"></i></div><div><div class="small text-muted" style="font-size:0.7rem;">WhatsApp</div>Chat on WhatsApp</div></a><a href="mailto:${email}" class="item-btn"><div class="icon-box"><i class="fa-solid fa-envelope"></i></div><div><div class="small text-muted" style="font-size:0.7rem;">Email</div>${email}</div></a>${linkedinHTML}<a href="${fullWebUrl}" target="_blank" class="item-btn"><div class="icon-box"><i class="fa-solid fa-globe"></i></div><div><div class="small text-muted" style="font-size:0.7rem;">Website</div>${cleanWebText}</div></a><div class="item-btn"><div class="icon-box"><i class="fa-solid fa-location-dot"></i></div><div><div class="small text-muted" style="font-size:0.7rem;">Address</div><span class="small">${address}</span></div></div></div></div><div class="text-center small text-muted py-3 fw-bold">ABANS FINANCE PLC • DIGITAL CARD</div></div><script>function saveVCF(){const vcf=["BEGIN:VCARD","VERSION:3.0","FN:${name}","N:${name};;;;","ORG:Abans Finance PLC","TITLE:${title}","TEL;TYPE=CELL,VOICE:${mobile}","TEL;TYPE=WORK,VOICE:${tel}","EMAIL:${email}","URL:${fullWebUrl}","ADR;TYPE=WORK:;;${address};;;;","END:VCARD"].join("\\r\\n");const blob=new Blob([vcf],{type:"text/vcard"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="${name.replace(/\s+/g, '_')}.vcf";a.click();}<\/script></body></html>`;
         const blob = new Blob([standaloneHTML], { type: "text/html;charset=utf-8" });
         const a = document.createElement("a");
         a.href = URL.createObjectURL(blob);
