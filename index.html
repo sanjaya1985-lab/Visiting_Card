@@ -652,14 +652,14 @@ body.viewer-mode #standaloneDigitalViewer { display: flex !important; }
             emailInput.classList.remove('is-invalid');
         }
 
-        const displayName = name || 'Prashad Samantha';
-        const displayTitle = designation || 'Chief Financial Officer';
-        const displayMobile = mobile || '+94 77 209 2209';
-        const displayTel = tel || '+94 71 448 5859';
-        const displayEmail = email || 'samanthab@abansfinance.lk';
+        const displayName = name || ' ';
+        const displayTitle = designation || ' ';
+        const displayMobile = mobile || ' ';
+        const displayTel = tel || '';
+        const displayEmail = email || '@abansfinance.lk';
         const displayWeb = web || 'www.abansfinance.lk';
         const displayAddress = address || 'No. 456, R A De Mel Mawatha, Colombo 03';
-        const displayWhatsapp = whatsapp || '+94 71 448 5859';
+        const displayWhatsapp = whatsapp || '';
 
         const fullWebUrl = displayWeb.startsWith('http') ? displayWeb : `https://${displayWeb}`;
         const cleanWebText = displayWeb.replace(/^https?:\/\//, '');
